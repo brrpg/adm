@@ -1,20 +1,4 @@
-// Função para verificar se o link atual corresponde ao link da página
-function highlightActiveLink() {
-    const currentPath = window.location.pathname;
-    const links = document.querySelectorAll('header a'); // Seleciona todos os links dentro do elemento nav
-
-    links.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPath) {
-            link.classList.add('fw-bold'); // Adiciona a classe 'fw-bold' para o link ativo
-        } else {
-            link.classList.remove('fw-bold'); // Remove a classe 'fw-bold' dos outros links
-        }
-    });
-}
-
-// Chama a função quando a página carregar
-window.onload = highlightActiveLink;
+//let resultados = [];  // Variável para armazenar os resultados calculados
 
 // Função para gerar os campos de candidatos
 function gerarCampos() {
@@ -229,14 +213,17 @@ function enviarParaPlanilha() {
         // Coletando todos os candidatos de todos os estados em uma lista plana
         const dadosParaEnviarSecundaria = [];
         Object.keys(resultadosPorEstado).forEach(estado => {
-            resultadosPorEstado[estado].candidatos.forEach(cand => {
+            const estadoData = resultadosPorEstado[estado]; // Aqui, definimos novamente estadoData para cada estado
+            estadoData.candidatos.forEach(cand => {
                 dadosParaEnviarSecundaria.push({
+                    EstadoNuloBranco: estado,
+                    VotosNulosBrancos: estadoData.votosNulosEstado, // Envia a quantidade correta de votos nulos e brancos
                     Candidato: cand.nome,
                     Partido: cand.partido,
                     Estado: estado
                 });
             });
-        });
+        });         
     
         // Enviando dados para a segunda planilha
         return fetch(urlSecundaria, {
