@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário para PDF</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Formulário para PDF</h1>
+        <form id="form">
+            <h4>Dados do projeto</h4>
+            <div class="row mb-4">
+                <div class="col my-2">
+                    <label class="form-label" for="categoria">Categoria</label>
+                    <select class="form-select" id="categoria" required>
+                        <option value="PL">PL</option>
+                        <option value="PEC">PEC</option>
+                        <option value="PER">PER</option>
+                        <option value="PDL">PDL</option>
+                        <option value="PLC">PLC</option>
+                    </select>
+                </div>
+                <div class="col my-2">
+                    <label class="form-label" for="idnum">Identificação</label>
+                    <input type="number" class="form-control" id="idnum" value="000" required>
+                </div>
+                <div class="col my-2">
+                    <label class="form-label" for="data">Data</label>
+                    <input type="date" class="form-control" id="data" name="data" required>
+                </div>
+                <div class="col my-2">
+                    <label for="cidade" class="form-label">Cidade</label>
+                    <input type="text" class="form-control" id="cidade" name="cidade" value="Brasília" required>
+                </div>
+            </div>
+            <h4>Dados do autor</h4>
+            <div class="row mb-4">
+                <div class="col-12 col-lg-3 my-2">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome" value="Geraldo Alckmin" required>
+                </div>
+                <div class="col-12 col-lg-3 my-2">
+                    <label class="form-label" for="cargo">Cargo</label>
+                    <select class="form-select" id="cargo" required>
+                        <option value="Presidente">Presidente</option>
+                        <option value="Senador">Senador</option>
+                        <option value="Deputado">Deputado</option>
+                        <option value="Ministro">Ministro</option>
+                        <option value="Governador">Governador</option>
+                        <option value="Secretário">Secretário</option>
+                    </select>
+                </div>
+                <div class="col-12 col-lg-3 my-2">
+                    <label for="orgao" class="form-label">Órgão</label>
+                    <input type="texte" class="form-control" id="orgao" name="orgao" placeholder="Ministério/Secretaria da Pesca" disabled>
+                </div>
+                <div class="col-12 col-lg-3 my-2">
+                    <label class="form-label" for="estado">Estado</label>
+                    <select class="form-select" id="estado" disabled>
+                        <option value="SP">São Paulo</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="GO">Goiás</option>
+                    </select>
+                </div>
+            </div>
+            <h4>Dados do documento</h4>
+            <div class="row mb-3">
+                <div class="col my-2">
+                    <label class="form-label" for="fonte">Fonte</label>
+                    <select class="form-select" id="fonte" required>
+                        <option value="helvetica">Helvetica</option>
+                        <option value="courier">Courier</option>
+                        <option value="times">Times</option>
+                    </select>
+                </div>
+                <div class="col my-2">
+                    <label class="form-label" for="justificativa">Justificativa</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="justSim" checked>
+                        <label class="form-check-label" for="justSim">Sim</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="justNao">
+                        <label class="form-check-label" for="justNao">Não</label>
+                    </div>
+                </div>
+            </div>
+            <h4>Corpo do projeto</h4>
+            <div class="row mb-3">
+                <div class="col-12 my-2">
+                    <label for="prefacio" class="form-label">Prefácio</label>
+                    <input type="text" class="form-control" id="prefacio" name="prefacio" placeholder="Resumo do documento" required>
+                </div>
+                <div class="col-12 my-2" id="justTextarea">
+                    <label for="justificativa" class="form-label">Justificativa</label>
+                    <textarea class="form-control" id="justificativa" name="justificativa" rows="3"></textarea>
+                </div>
+                <div id="camposAdicionais"></div>
+            </div>
+            <div class="mb-3">
+                <button type="button" id="adicionarCampo" class="btn btn-secondary"><i class="fa-regular fa-plus me-2"></i>Adicionar Artigos</button>
+                <button type="button" class="btn btn-success" onclick="showInDiv()">Pré-Visualizar</button>
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-primary" onclick="previewPDF()">Pré-visualizar PDF</button>
+                <button type="button" class="btn btn-success" onclick="downloadPDF()">Baixar PDF</button>
+            </div>
+        </form>
+        <div id="resultado"></div>
+    </div>
+    <script src="projeto.js"></script>
+</body>
+</html>
