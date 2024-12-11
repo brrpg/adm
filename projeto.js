@@ -203,7 +203,7 @@ function createPDF(imagemBase64) {
 
     // Adicionar imagem
     if (imagemBase64) {
-        doc.addImage(imagemBase64, 'PNG', 10, 10, 50, 50); // Altere as dimensões e posição conforme necessário
+        doc.addImage(imagemBase64, 'PNG', 10, 10, 1200, 800); // Altere as dimensões e posição conforme necessário
     }
     y += 40; // Ajustar posição Y
 
