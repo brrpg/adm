@@ -1,20 +1,4 @@
-// Função para verificar se o link atual corresponde ao link da página
-function highlightActiveLink() {
-    const currentPath = window.location.pathname;
-    const links = document.querySelectorAll('header a'); // Seleciona todos os links dentro do elemento nav
-
-    links.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href === currentPath) {
-            link.classList.add('fw-bold'); // Adiciona a classe 'fw-bold' para o link ativo
-        } else {
-            link.classList.remove('fw-bold'); // Remove a classe 'fw-bold' dos outros links
-        }
-    });
-}
-
-// Chama a função quando a página carregar
-window.onload = highlightActiveLink;
+//let resultados = [];  // Variável para armazenar os resultados calculados
 
 // Função para gerar os campos de candidatos
 function gerarCampos() {
@@ -141,8 +125,9 @@ function calcularDistribuicao() {
     const nulos = {
         SP: parseInt(document.getElementById("nulo1").value) || 0,
         SC: parseInt(document.getElementById("nulo2").value) || 0,
-        PE: parseInt(document.getElementById("nulo3").value) || 0,
-        GO: parseInt(document.getElementById("nulo4").value) || 0,
+        MG: parseInt(document.getElementById("nulo3").value) || 0,
+        PE: parseInt(document.getElementById("nulo4").value) || 0,
+        GO: parseInt(document.getElementById("nulo5").value) || 0,
     };
     const numeroCandidatos = parseInt(document.getElementById("numeroCandidatos").value);
     const resultados = [];
@@ -214,18 +199,21 @@ function enviarParaPlanilha() {
     const votosValidos = window.votosValidosParaEnvio || 0;
     const totalVotos = window.totalVotosParaEnvio || 0;
 
-    const dadosParaEnviar = resultados.map(cand => ({
-        VotosValidos: votosValidos,
-        TotalVotos: totalVotos,
-        VotosNulos: nulos[cand.estado] || 0,
-        Candidato: cand.nome,
-        Partido: cand.partido,
-        Votos: cand.votos,
-        Porcentagem: cand.porcentagem,
-        Estado: cand.estado,
-        Imagem: cand.imagem,
-        NPC: cand.npc
-    })).filter(dado => dado.Candidato);
+    const dadosParaEnviar = resultados.map(cand => {
+        const candEstado = cand.estado.toLowerCase(); // Transforma o estado em letras minúsculas
+        return {
+            VotosValidos: votosValidos,
+            TotalVotos: totalVotos,
+            VotosNulos: nulos[cand.estado] || 0,
+            Candidato: cand.nome,
+            Partido: cand.partido,
+            Votos: cand.votos,
+            Porcentagem: cand.porcentagem,
+            Estado: candEstado, // Usa a versão em minúsculas
+            Imagem: cand.imagem,
+            NPC: cand.npc
+        };
+    }).filter(dado => dado.Candidato);
 
     if (dadosParaEnviar.length === 0) {
         console.error("Nenhum dado válido para enviar.");
@@ -252,13 +240,16 @@ function enviarParaPlanilha() {
         
         // Enviando para a segunda planilha com informações selecionadas
         const urlSecundaria = "https://api.steinhq.com/v1/storages/67267f05c0883333654a2351/Estado";
-        const dadosParaEnviarSecundaria = resultados.map(cand => ({
-            Candidato: cand.nome,
-            Partido: cand.partido,
-            Imagem: cand.imagem,
-            Estado: cand.estado,
-            CandidatoCor: cand.cor
-        }));
+        const dadosParaEnviarSecundaria = resultados.map(cand => {
+            const candEstado = cand.estado.toLowerCase(); // Transforma o estado em letras minúsculas
+            return {
+                Candidato: cand.nome,
+                Partido: cand.partido,
+                Imagem: cand.imagem,
+                Estado: candEstado, // Usa a versão em minúsculas
+                CandidatoCor: cand.cor
+            };
+        });        
 
         return fetch(urlSecundaria, {
             method: "POST",
@@ -287,31 +278,5 @@ function enviarParaPlanilha() {
             showConfirmButton: false,
             timer: 2500
         });
-    });
-}
-
-function copiarResultado() {
-    // Seleciona o conteúdo da div#resultado
-    const resultado = document.getElementById("resultado").innerText;
-    
-    // Cria um elemento de texto temporário
-    const tempTextArea = document.createElement("textarea");
-    tempTextArea.value = resultado;
-    document.body.appendChild(tempTextArea);
-    
-    // Seleciona e copia o conteúdo
-    tempTextArea.select();
-    document.execCommand("copy");
-    
-    // Remove o elemento temporário
-    document.body.removeChild(tempTextArea);
-
-    // Alerta de sucesso
-    Swal.fire({
-        title: "Copiado!",
-        text: "Dados copiado com sucesso",
-        icon: "success",
-        showConfirmButton: false,
-        timer: 2500
     });
 }
