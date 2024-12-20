@@ -87,8 +87,9 @@ let resultadosPorEstado = {}; // Variável global para armazenar os resultados
 function calcularDistribuicao() {
     const nuloSP = parseInt(document.getElementById("nulo1").value) || 0;
     const nuloSC = parseInt(document.getElementById("nulo2").value) || 0;
-    const nuloPE = parseInt(document.getElementById("nulo3").value) || 0;
-    const nuloGO = parseInt(document.getElementById("nulo4").value) || 0;
+    const nuloMG = parseInt(document.getElementById("nulo3").value) || 0;
+    const nuloPE = parseInt(document.getElementById("nulo4").value) || 0;
+    const nuloGO = parseInt(document.getElementById("nulo5").value) || 0;
     
     const numeroCandidatos = parseInt(document.getElementById("numeroCandidatos").value);
     const resultados = [];
@@ -102,7 +103,7 @@ function calcularDistribuicao() {
         resultados.push({ nome, votos, partido, estado });
     }
 
-    const votosNulosPorEstado = { SP: nuloSP, SC: nuloSC, PE: nuloPE, GO: nuloGO };
+    const votosNulosPorEstado = { SP: nuloSP, SC: nuloSC, PE: nuloPE, GO: nuloGO, MG: nuloMG };
     resultadosPorEstado = {}; // Redefine os resultados
 
     resultados.forEach(cand => {
